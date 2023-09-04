@@ -1,514 +1,291 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-int[] arrayToBeManupulated = Console
-    .ReadLine()
-    .Split()
-    .Select(int.Parse)
-    .ToArray();
-string input;
-while ((input = Console.ReadLine()) != "end")
+﻿namespace Array_Manipulator
 {
-    string[] argument = input.Split().ToArray();
-    string command = argument[0];
-
-    if (command == "exchange")
+    internal class Program
     {
-        int index = int.Parse(argument[1]);
-        arrayToBeManupulated = ExchangeArray(arrayToBeManupulated, index);
-    }
-    else if (command == "max")
-    {
-        string commandOne = argument[1];
-        maxEvenOrOddfinder(arrayToBeManupulated, commandOne);
-
-    }
-    else if (command == "min")
-    {
-        string commandOne = argument[1];
-        int foundNum = MinEvenOrOddFinder(arrayToBeManupulated, commandOne);
-
-    }
-
-
-    else if (command == "first")
-    {
-        int index = int.Parse(argument[1]);
-        string commandtwo = argument[2];
-        FirstOddFinder(arrayToBeManupulated, index, commandtwo);
-
-    }
-    else if (command == "last")
-    {
-        int index = int.Parse(argument[1]);
-        string commandTwo = argument[2];
-        LastTwo(arrayToBeManupulated, index, commandTwo);
-    }
-
-
-}
-
-
-static int[] ExchangeArray(int[] arrayToBeManupulated, int index)
-{
-    if (CheckForOutOfRange(arrayToBeManupulated, index) == true)
-    {
-        Console.WriteLine("Invalid index");
-        return arrayToBeManupulated;
-    }
-    else
-    {
-        int[] changedArr = new int[arrayToBeManupulated.Length];
-        int changedArrIndex = 0;
-        for (int i = index + 1; i <= arrayToBeManupulated.Length - 1; i++)
+        static void Main(string[] args)
         {
-            changedArr[changedArrIndex++] = arrayToBeManupulated[i];
-        }
-        for (int i = 0; i <= index; i++)
-        {
-            changedArr[changedArrIndex++] = arrayToBeManupulated[i];
-        }
-        return changedArr;
-
-    }
-
-
-
-
-
-
-
-}
-
-
-
-
-PrintAlreadyManipulatedArray(arrayToBeManupulated);
-
-
-
-
-static bool CheckForOutOfRange(int[] arrayToBeManupulated, int index)
-{
-    if (index < 0 || index > arrayToBeManupulated.Length - 1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-static void maxEvenOrOddfinder(int[] arrayToBeManupulated, string commandOne)
-{
-    if (commandOne == "even")
-    {
-        bool isFound = false;
-        int evenNumber = int.MinValue;
-        int evenNumberIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-            if (arrayToBeManupulated[i] % 2 == 0 && arrayToBeManupulated[i] > evenNumber || arrayToBeManupulated[i] == evenNumber)
+            int[] arrToBeExchanged = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            string input = string.Empty;
+            while ((input = Console.ReadLine()) != "end")
             {
-                evenNumber = arrayToBeManupulated[i];
-                evenNumberIndex = Array.IndexOf(arrayToBeManupulated, arrayToBeManupulated[i]);
-                isFound = true;
-            }
-        }
-        if (evenNumberIndex != 0)
-        {
-            PrintAlreadyGotNumber(evenNumberIndex, true);
-
-        }
-        else if (isFound == true && evenNumberIndex == 0)
-        {
-            PrintAlreadyGotNumber(evenNumberIndex, true);
-        }
-        else if (isFound == false)
-        {
-            PrintAlreadyGotNumber(evenNumberIndex, false);
-        }
-
-    }
-    else if (commandOne == "odd")
-    {
-        bool isFound = false;
-        int oddNumber = int.MinValue;
-        int oddNumberIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-            if (arrayToBeManupulated[i] % 2 == 1 && arrayToBeManupulated[i] > oddNumber || arrayToBeManupulated[i] == oddNumber)
-            {
-                oddNumber = arrayToBeManupulated[i];
-                oddNumberIndex = Array.IndexOf(arrayToBeManupulated, arrayToBeManupulated[i]);
-                isFound = true;
-            }
-        }
-        if (oddNumberIndex != 0)
-        {
-            PrintAlreadyGotNumber(oddNumberIndex, true);
-
-        }
-        else if (isFound == true && oddNumberIndex == 0)
-        {
-            PrintAlreadyGotNumber(oddNumberIndex, true);
-        }
-        else if (isFound == false)
-        {
-            PrintAlreadyGotNumber(oddNumberIndex, false);
-        }
-    }
-
-
-
-}
-static void PrintAlreadyManipulatedArray(int[] arrayToBeManupulated)
-{
-    Console.Write("[");
-    Console.Write(string.Join(", ", arrayToBeManupulated));
-    Console.WriteLine("]");
-    Console.WriteLine();
-}
-static void PrintAlreadyGotNumber(int foundNum, bool boolean)
-{
-    if (foundNum == 0 && boolean == false)
-    {
-        Console.WriteLine("No matches");
-    }
-    else if (foundNum == 0 && boolean == true)
-    {
-        Console.WriteLine(foundNum);
-    }
-    else if (foundNum != 0)
-    {
-        Console.WriteLine(foundNum);
-    }
-}
-static int MinEvenOrOddFinder(int[] arrayToBeManupulated, string commandOne)
-{
-    if (commandOne == "even")
-    {
-        bool isFound = false;
-        int evenNumber = int.MaxValue;
-        int evenNumberIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-            if (arrayToBeManupulated[i] % 2 == 0 && arrayToBeManupulated[i] < evenNumber || arrayToBeManupulated[i] == evenNumber)
-            {
-                evenNumber = arrayToBeManupulated[i];
-                evenNumberIndex = Array.IndexOf(arrayToBeManupulated, arrayToBeManupulated[i]);
-                isFound = true;
-            }
-        }
-        if (evenNumberIndex != 0)
-        {
-            PrintAlreadyGotNumber(evenNumberIndex, true);
-
-        }
-        else if (isFound == true && evenNumberIndex == 0)
-        {
-            PrintAlreadyGotNumber(evenNumberIndex, true);
-        }
-        else if (isFound == false)
-        {
-            PrintAlreadyGotNumber(evenNumberIndex, false);
-        }
-    }
-    else if (commandOne == "odd")
-    {
-        bool isFound = false;
-        int oddNumber = int.MaxValue;
-        int oddNumberIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-            if (arrayToBeManupulated[i] % 2 == 1 && arrayToBeManupulated[i] < oddNumber || arrayToBeManupulated[i] == oddNumber)
-            {
-                oddNumber = arrayToBeManupulated[i];
-                oddNumberIndex = Array.IndexOf(arrayToBeManupulated, arrayToBeManupulated[i]);
-                isFound = true;
-            }
-        }
-        if (oddNumberIndex != 0)
-        {
-            PrintAlreadyGotNumber(oddNumberIndex, true);
-
-        }
-        else if (isFound == true && oddNumberIndex == 0)
-        {
-            PrintAlreadyGotNumber(oddNumberIndex, true);
-        }
-        else if (isFound == false)
-        {
-            PrintAlreadyGotNumber(oddNumberIndex, false);
-        }
-    }
-    return 0;
-}
-static void FirstOddFinder(int[] arrayToBeManupulated, int index, string commandtwo)
-{
-    int[] firstCount = new int[index];
-    if (index > arrayToBeManupulated.Length)
-    {
-        Console.WriteLine("Invalid count");
-        return;
-    }
-    if (commandtwo == "even")
-    {
-        int firstElementsCount = 0;
-        bool IsElementFound = false;
-        int firstCountArrIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-            if (firstElementsCount == index)
-            {
-                IsElementFound = true;
-                break;
-            }
-            else
-            {
-                if (arrayToBeManupulated[i] % 2 == 0)
+                string[] arguments= input
+                    .Split(" ",StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+                string instruction= arguments[0];
+                if (instruction== "exchange")
                 {
-                    firstCount[firstCountArrIndex] = arrayToBeManupulated[i];
-                    firstElementsCount++;
-                    firstCountArrIndex++;
-                    IsElementFound = true;
+                    int index = int.Parse(arguments[1]);
+                   arrToBeExchanged= Exchange(arrToBeExchanged, index);
                 }
-            }
-
-        }
-
-        if (IsElementFound == true)
-        {
-            Console.Write("[");
-            Console.Write(string.Join(", ", firstCount));
-            Console.Write("]");
-            Console.WriteLine();
-
-        }
-        else
-        {
-            Console.Write("[");
-            Console.Write("]");
-            Console.WriteLine();
-        }
-    }
-    else if (commandtwo == "odd")
-    {
-        int firstElementsCount = 0;
-        bool IsElementFound = false;
-        int firstCountArrIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-            if (firstElementsCount == index)
-            {
-                IsElementFound = true;
-                break;
-            }
-            else
-            {
-                if (arrayToBeManupulated[i] % 2 == 1)
+                else if (instruction== "max")
                 {
-                    firstCount[firstCountArrIndex] = arrayToBeManupulated[i];
-                    firstElementsCount++;
-                    firstCountArrIndex++;
-                    IsElementFound = true;
+                    string evenOrOdd= arguments[1];
+                    maxEvenOrOdd(arrToBeExchanged, evenOrOdd);
+                }
+                else if (instruction == "min")
+                {
+                    string evenOrOdd = arguments[1];
+                    minEvenOrOdd(arrToBeExchanged, evenOrOdd);
 
                 }
-            }
-
-        }
-        if (IsElementFound == true)
-        {
-            DeleteZeroesFromArray(firstCount);
-
-        }
-        else
-        {
-            Console.Write("[");
-            Console.Write("]");
-            Console.WriteLine();
-            return;
-
-        }
-    }
-
-}
-
-static void DeleteZeroesFromArray(int[] firstCount)
-{
-    int nonZeroCount = 0;
-    for (int i = 0; i < firstCount.Length; i++)
-    {
-        if (firstCount[i] > 0)
-        {
-            nonZeroCount++;
-        }
-    }
-    int[] nonZeroArray = new int[nonZeroCount];
-    if (nonZeroArray.Length == 0)
-    {
-        Console.Write("[");
-        Console.Write("]");
-        Console.WriteLine();
-        return;
-    }
-    else
-    {
-        int index = 0;
-        for (int i = 0; i < firstCount.Length; i++)
-        {
-
-            if (firstCount[i] > 0)
-            {
-                nonZeroArray[index] = firstCount[i];
-                index++;
-            }
-        }
-        Array.Resize(ref nonZeroArray, nonZeroCount);
-
-
-    }
-    Console.Write("[");
-    Console.Write(string.Join(", ", nonZeroArray));
-    Console.Write("]");
-    Console.WriteLine();
-
-}
-
-static void LastTwo(int[] arrayToBeManupulated, int index, string commandTwo)
-{
-    int[] lastCount = new int[index];
-    if (index > arrayToBeManupulated.Length)
-    {
-        Console.WriteLine("Invalid count");
-        return;
-    }
-    if (commandTwo == "even")
-    {
-        int lastCountIndex = 0;
-        bool isFound = false;
-        int foundNumIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-
-            if (foundNumIndex == index)
-            {
-                isFound = true;
-                if (arrayToBeManupulated[i] % 2 == 0)
+                else if (instruction == "first")
                 {
-                    for (int k = 0; k < lastCount.Length; k++)
+                    int count = int.Parse(arguments[1]);
+                    string evenOrOdd = arguments[2];
+                    FirstEvenOrOdd(count, evenOrOdd, arrToBeExchanged);
+                }
+                else if (instruction == "last")
+                {
+                    int count = int.Parse(arguments[1]);
+                    string evenOrOdd = arguments[2];
+                    LastEvenOrOdd(count, evenOrOdd, arrToBeExchanged);
+                }
+            }
+            string result = $"[" + string.Join(", ", arrToBeExchanged) + "]";
+            Console.WriteLine(result);
+        }
+
+        private static void LastEvenOrOdd(int count, string evenOrOdd, int[] arrToBeExchanged)
+        {
+            if (count > arrToBeExchanged.Length)
+            {
+                Console.WriteLine("Invalid count");
+                return;
+            }
+
+            List<int> firstOdd = new List<int>();
+            if (evenOrOdd=="even")
+            {
+                for (int i = arrToBeExchanged.Length-1; i >= 0; i--)
+                {
+                    if (arrToBeExchanged[i] % 2 == 0)
                     {
-                        if (k + 1 > lastCount.Length)
-                        {
-                            break;
-                        }
-                        lastCount[k] = lastCount[k + 1];
-                        lastCount[lastCount.Length - 1] = arrayToBeManupulated[i];
-                    }
-                }
-            }
-            if (arrayToBeManupulated[i] % 2 == 0)
-            {
-                lastCount[lastCountIndex] = arrayToBeManupulated[i];
-                foundNumIndex++;
-                lastCountIndex++;
-                isFound = true;
-
-            }
-
-
-
-
-
-
-
-
-        }
-
-        if (isFound == true)
-        {
-            Console.Write("[");
-            Console.Write(string.Join(", ", lastCount));
-            Console.Write("]");
-            Console.WriteLine();
-        }
-        else
-        {
-            Console.Write("[");
-            Console.Write("]");
-            Console.WriteLine();
-        }
-
-    }
-    else if (commandTwo == "odd")
-    {
-        int lastCountIndex = 0;
-        bool isFound = false;
-        int foundNumIndex = 0;
-        for (int i = 0; i < arrayToBeManupulated.Length; i++)
-        {
-
-            if (foundNumIndex == index)
-            {
-                isFound = true;
-                if (arrayToBeManupulated[i] % 2 == 1)
-                {
-                    
-                    for (int k = 0; k < lastCount.Length; k++)
-                    {
-                        if (k>lastCount.Length-1 || k+1>lastCount.Length-1)
-                        {
-                            break;
-                        }
-                        if (lastCount[k+1]==lastCount.Length-1)
-                        {
-                            continue;
-                        }
-                        lastCount[k] = lastCount[k + 1];
-                       
-
+                        firstOdd.Add(arrToBeExchanged[i]);
                     }
 
-                    continue;
+                    if (firstOdd.Count == count)
+                    {
+                        break;
+                    }
+                }
+                if (firstOdd.Count == 0)
+                {
+                    Console.WriteLine($"[]");
+                }
+                else
+                {
+                    string result = $"[" + string.Join(", ", firstOdd) + "]";
+                    Console.WriteLine(result);
                 }
             }
-            if (arrayToBeManupulated[i] % 2 == 1)
+            else if (evenOrOdd=="odd")
             {
-                lastCount[lastCountIndex] = arrayToBeManupulated[i];
-                foundNumIndex++;
-                lastCountIndex++;
-                isFound = true;
+                for (int i = arrToBeExchanged.Length-1; i >= 0; i--)
+                {
+                    if (arrToBeExchanged[i] % 2 == 1)
+                    {
+                        firstOdd.Add(arrToBeExchanged[i]);
+                    }
+
+                    if (firstOdd.Count == count)
+                    {
+                        break;
+                    }
+                }
+                if (firstOdd.Count == 0)
+                {
+                    Console.WriteLine($"[]");
+                }
+                else
+                {
+                    string result = $"[" + string.Join(", ", firstOdd) + "]";
+                    Console.WriteLine(result);
+                }
+            }
+        }
+
+        private static void FirstEvenOrOdd(int count, string evenOrOdd, int[] arrToBeExchanged)
+        {
+            if (count > arrToBeExchanged.Length)
+            {
+                Console.WriteLine("Invalid count");
+                return;
+            }
+            List<int> firstOdd= new List<int>();
+            if (evenOrOdd == "even")
+            {
+                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                {
+                    if (arrToBeExchanged[i]%2==0)
+                    {
+                        firstOdd.Add(arrToBeExchanged[i]);
+                    }
+
+                    if (firstOdd.Count==count)
+                    {
+                        break;
+                    }
+                }
+
+                if (firstOdd.Count==0)
+                {
+                    Console.WriteLine($"[]");
+                }
+                else
+                {
+                    string result = $"[" + string.Join(", ", firstOdd) + "]";
+                    Console.WriteLine(result);
+                }
+            }
+            else if (evenOrOdd == "odd")
+            {
+                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                {
+                    if (arrToBeExchanged[i] % 2 == 1)
+                    {
+                        firstOdd.Add(arrToBeExchanged[i]);
+                    }
+
+                    if (firstOdd.Count == count)
+                    {
+                        break;
+                    }
+                }
+
+                if (firstOdd.Count == 0)
+                {
+                    Console.WriteLine($"[]");
+                }
+                else
+                {
+                    string result = $"[" + string.Join(", ", firstOdd) + "]";
+                    Console.WriteLine(result);
+                }
+            }
+        }
+
+        private static void minEvenOrOdd(int[] arrToBeExchanged, string evenOrOdd)
+        {
+            int numberIndex = -1;
+            int currNum = int.MaxValue;
+            if (evenOrOdd == "even")
+            {
+                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                {
+                    if (arrToBeExchanged[i] % 2 == 0 && arrToBeExchanged[i] <= currNum)
+                    {
+                        numberIndex = i;
+                        currNum = arrToBeExchanged[i];
+                    }
+                }
+                if (numberIndex == -1)
+                {
+                    Console.WriteLine("No matches");
+                }
+                else
+                {
+                    Console.WriteLine(numberIndex);
+                }
+
+            }
+            else if (evenOrOdd == "odd")
+            {
+                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                {
+                    if (arrToBeExchanged[i] % 2 == 1 && arrToBeExchanged[i] <= currNum)
+                    {
+                        numberIndex = i;
+                        currNum = arrToBeExchanged[i];
+                    }
+                }
+                if (numberIndex == -1)
+                {
+                    Console.WriteLine("No matches");
+                }
+                else
+                {
+                    Console.WriteLine(numberIndex);
+                }
 
             }
 
-
-
-
-
-
-
-
+            
         }
-        if (isFound == true)
+
+        private static void maxEvenOrOdd(int[] arrToBeExchanged, string evenOrOdd)
         {
-            DeleteZeroesFromArray(lastCount);
+           
+            int numberIndex = -1;
+            int currNum = 0;
+            if (evenOrOdd=="even")
+            {
+                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                {
+                    if (arrToBeExchanged[i] % 2 == 0 && arrToBeExchanged[i] >= currNum)
+                    {
+                        numberIndex = i;
+                        currNum = arrToBeExchanged[i];
+                    }
+                }
+                if (numberIndex == -1)
+                {
+                    Console.WriteLine("No matches");
+                }
+                else
+                {
+                    Console.WriteLine(numberIndex);
+                }
+
+            }
+            else if (evenOrOdd=="odd")
+            {
+                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                {
+                    if (arrToBeExchanged[i] % 2 == 1 && arrToBeExchanged[i] >= currNum)
+                    {
+                        numberIndex = i;
+                        currNum = arrToBeExchanged[i];
+                    }
+                }
+
+                if (numberIndex == -1)
+                {
+                    Console.WriteLine("No matches");
+                }
+                else
+                {
+                    Console.WriteLine(numberIndex);
+                }
+
+            }
 
         }
-        else
+
+        private static int[] Exchange(int[] arrToBeExchanged, int index)
         {
-            Console.Write("[");
-            Console.Write("]");
-            Console.WriteLine();
-            return;
+            if (index<0 || index>arrToBeExchanged.Length-1)
+            {
+                Console.WriteLine("Invalid index");
+                return arrToBeExchanged;
+            }
 
+            int[] newArr= new int[arrToBeExchanged.Length];
+            int newArrIndex = 0;
+            for (int i = index+1; i <= arrToBeExchanged.Length-1; i++)
+            {
+                newArr[newArrIndex++]= arrToBeExchanged[i];
+            }
+
+            for (int i = 0; i <= index; i++)
+            {
+                newArr[newArrIndex++] = arrToBeExchanged[i];
+            }
+            return newArr;
         }
-
     }
 
-
+    
 }
-//In fiture debugging//
