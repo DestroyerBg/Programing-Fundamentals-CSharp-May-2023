@@ -56,213 +56,139 @@
                 return;
             }
 
-            List<int> firstOdd = new List<int>();
-            if (evenOrOdd=="even")
+            if (evenOrOdd == "even")
             {
-                for (int i = arrToBeExchanged.Length-1; i >= 0; i--)
+                int[] lastElements= arrToBeExchanged
+                    .Where(x=>x%2==0)
+                    .TakeLast(count)
+                    .ToArray();
+                if (lastElements.Length > 0)
                 {
-                    if (arrToBeExchanged[i] % 2 == 0)
-                    {
-                        firstOdd.Add(arrToBeExchanged[i]);
-                    }
-
-                    if (firstOdd.Count == count)
-                    {
-                        break;
-                    }
-                }
-                if (firstOdd.Count == 0)
-                {
-                    Console.WriteLine($"[]");
+                    Console.WriteLine("[" + string.Join(", ", lastElements) + "]");
                 }
                 else
                 {
-                    string result = $"[" + string.Join(", ", firstOdd) + "]";
-                    Console.WriteLine(result);
+                    Console.WriteLine("[]");
                 }
             }
-            else if (evenOrOdd=="odd")
+            else if (evenOrOdd == "odd")
             {
-                for (int i = arrToBeExchanged.Length-1; i >= 0; i--)
+                int[] lastElements = arrToBeExchanged
+                    .Where(x => x % 2 == 1)
+                    .TakeLast(count)
+                    .ToArray();
+                if (lastElements.Length > 0)
                 {
-                    if (arrToBeExchanged[i] % 2 == 1)
-                    {
-                        firstOdd.Add(arrToBeExchanged[i]);
-                    }
-
-                    if (firstOdd.Count == count)
-                    {
-                        break;
-                    }
-                }
-                if (firstOdd.Count == 0)
-                {
-                    Console.WriteLine($"[]");
+                    Console.WriteLine("[" + string.Join(", ", lastElements) + "]");
                 }
                 else
                 {
-                    string result = $"[" + string.Join(", ", firstOdd) + "]";
-                    Console.WriteLine(result);
+                    Console.WriteLine("[]");
                 }
             }
         }
 
         private static void FirstEvenOrOdd(int count, string evenOrOdd, int[] arrToBeExchanged)
         {
-            if (count > arrToBeExchanged.Length)
+            if (count>arrToBeExchanged.Length)
             {
                 Console.WriteLine("Invalid count");
                 return;
             }
-            List<int> firstOdd= new List<int>();
-            if (evenOrOdd == "even")
+
+            if (evenOrOdd=="even")
             {
-                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                int[] firstElements = arrToBeExchanged
+                    .Where(x => x % 2 == 0)
+                    .Take(count)
+                    .ToArray();
+                if (firstElements.Length>0)
                 {
-                    if (arrToBeExchanged[i]%2==0)
-                    {
-                        firstOdd.Add(arrToBeExchanged[i]);
-                    }
-
-                    if (firstOdd.Count==count)
-                    {
-                        break;
-                    }
-                }
-
-                if (firstOdd.Count==0)
-                {
-                    Console.WriteLine($"[]");
+                    Console.WriteLine("["+ string.Join(", ",firstElements)+"]");
                 }
                 else
                 {
-                    string result = $"[" + string.Join(", ", firstOdd) + "]";
-                    Console.WriteLine(result);
+                    Console.WriteLine("[]");
                 }
             }
-            else if (evenOrOdd == "odd")
+            else if (evenOrOdd=="odd")
             {
-                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                int[] firstElements = arrToBeExchanged
+                    .Where(x => x % 2 == 1)
+                    .Take(count)
+                    .ToArray();
+                if (firstElements.Length > 0)
                 {
-                    if (arrToBeExchanged[i] % 2 == 1)
-                    {
-                        firstOdd.Add(arrToBeExchanged[i]);
-                    }
-
-                    if (firstOdd.Count == count)
-                    {
-                        break;
-                    }
-                }
-
-                if (firstOdd.Count == 0)
-                {
-                    Console.WriteLine($"[]");
+                    Console.WriteLine("[" + string.Join(", ", firstElements) + "]");
                 }
                 else
                 {
-                    string result = $"[" + string.Join(", ", firstOdd) + "]";
-                    Console.WriteLine(result);
+                    Console.WriteLine("[]");
                 }
             }
         }
 
         private static void minEvenOrOdd(int[] arrToBeExchanged, string evenOrOdd)
         {
-            int numberIndex = -1;
-            int currNum = int.MaxValue;
             if (evenOrOdd == "even")
             {
-                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                if (arrToBeExchanged.Any(x => x % 2 == 0))
                 {
-                    if (arrToBeExchanged[i] % 2 == 0 && arrToBeExchanged[i] <= currNum)
-                    {
-                        numberIndex = i;
-                        currNum = arrToBeExchanged[i];
-                    }
-                }
-                if (numberIndex == -1)
-                {
-                    Console.WriteLine("No matches");
+                    int even = arrToBeExchanged.Where(x => x % 2 == 0).Min();
+                    int index = Array.LastIndexOf(arrToBeExchanged, even);
+                    Console.WriteLine(index);
                 }
                 else
                 {
-                    Console.WriteLine(numberIndex);
+                    Console.WriteLine("No matches");
                 }
-
             }
             else if (evenOrOdd == "odd")
             {
-                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                if (arrToBeExchanged.Any(x => x % 2 == 1))
                 {
-                    if (arrToBeExchanged[i] % 2 == 1 && arrToBeExchanged[i] <= currNum)
-                    {
-                        numberIndex = i;
-                        currNum = arrToBeExchanged[i];
-                    }
-                }
-                if (numberIndex == -1)
-                {
-                    Console.WriteLine("No matches");
+                    int even = arrToBeExchanged.Where(x => x % 2 == 1).Min();
+                    int index = Array.LastIndexOf(arrToBeExchanged, even);
+                    Console.WriteLine(index);
                 }
                 else
                 {
-                    Console.WriteLine(numberIndex);
+                    Console.WriteLine("No matches");
                 }
-
             }
-
-            
         }
 
         private static void maxEvenOrOdd(int[] arrToBeExchanged, string evenOrOdd)
         {
-           
-            int numberIndex = -1;
-            int currNum = 0;
-            if (evenOrOdd=="even")
+            if (evenOrOdd== "even")
             {
-                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                if (arrToBeExchanged.Any(x=>x%2==0))
                 {
-                    if (arrToBeExchanged[i] % 2 == 0 && arrToBeExchanged[i] >= currNum)
-                    {
-                        numberIndex = i;
-                        currNum = arrToBeExchanged[i];
-                    }
-                }
-                if (numberIndex == -1)
-                {
-                    Console.WriteLine("No matches");
+                    int even = arrToBeExchanged.Where(x => x % 2 == 0).Max();
+                    int index = Array.LastIndexOf(arrToBeExchanged, even);
+                    Console.WriteLine(index);
                 }
                 else
                 {
-                    Console.WriteLine(numberIndex);
+                    Console.WriteLine("No matches");
                 }
-
             }
             else if (evenOrOdd=="odd")
             {
-                for (int i = 0; i < arrToBeExchanged.Length; i++)
+                if (arrToBeExchanged.Any(x => x % 2 == 1))
                 {
-                    if (arrToBeExchanged[i] % 2 == 1 && arrToBeExchanged[i] >= currNum)
-                    {
-                        numberIndex = i;
-                        currNum = arrToBeExchanged[i];
-                    }
-                }
-
-                if (numberIndex == -1)
-                {
-                    Console.WriteLine("No matches");
+                    int even = arrToBeExchanged.Where(x => x % 2 == 1).Max();
+                    int index = Array.LastIndexOf(arrToBeExchanged, even);
+                    Console.WriteLine(index);
                 }
                 else
                 {
-                    Console.WriteLine(numberIndex);
+                    Console.WriteLine("No matches");
                 }
-
             }
-
+            
         }
+
 
         private static int[] Exchange(int[] arrToBeExchanged, int index)
         {
